@@ -4,8 +4,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from feedback.forms import FeedbackForm, RegistrationForm, LoginForm
 from django.contrib.auth.models import User
-import os
-import logging
+# import os
+# import logging
 
 
 class RegisterView(View):
@@ -43,10 +43,10 @@ class SuccessView(TemplateView):
     template_name = "feedback/success.html"
     
 
-log = logging.getLogger('log')
+# log = logging.getLogger('log')
 def index(request):
-    log.info("Message for information")
-    log.warning("Message for warning")
-    log.error("Message for error")
-    log.critical("Message for critical error")
+    # log.info("Message for information")
+    # log.warning("Message for warning")
+    # log.error("Message for error")
+    # log.critical("Message for critical error")
     return render(request, 'feedback/index.html')
