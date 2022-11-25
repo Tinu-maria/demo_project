@@ -51,7 +51,7 @@ class StudentDetailView(APIView):
         queryset = Student.objects.get(id=id)
         serializer=StudentSerializer(queryset)
         return Response(data=serializer.data)
-    @property
+
     def put(self, request, *args, **kwargs):
         id = kwargs.get("id")
         queryset = Student.objects.get(id=id)

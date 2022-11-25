@@ -2,16 +2,16 @@
 
 {% block content %}
 
-    <h1>How are we doing?</h1>
+    <h2>How are we doing?</h2>
     
     <p>Please send us your feedback.</p>
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit"/>
+        <input type="submit"class="btn btn-danger"/>
     </form>
 
-    <p class="mt-5">If u don't have any feedback, you can go to <a href="{% url 'feedback:index' %}">Home Page</a></p>
+    <p class="mt-3">If u don't have any feedback, you can go to <a href="{% url 'feedback:index' %}">Home Page</a></p>
 
 {% endblock content %}

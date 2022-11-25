@@ -1,0 +1,14 @@
+{% extends 'feedback/base.html' %}
+
+{% block content %}
+
+<h2>Register Here</h2>
+    <form action="" class="mt-4" method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <div>
+            <button type="submit" class="btn btn-danger">Register</button>
+        </div>
+    </form>
+            
+{% endblock content %}
