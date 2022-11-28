@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g#btzdut2148&hl3m8t&gogvxa&gej9205rh4n2&*#2dquy&(6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['tinumaria.pythonanywhere.com']
 
 
 # Application definition
@@ -128,6 +128,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = 'static/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -146,37 +148,37 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 # Loggers settings
-# import os
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False if DEBUG else True,
-#     'formatters': {
-#         'verbose': {
-#             'format': '{levelname} {asctime} {module} {lineno} {message}',
-#             'style': '{',
-#         }, 
-#         'simple': {
-#             'format': '{levelname} {message}',
-#             'style': '{',
-#         },
-#     },
-#     'filters': {
-#         'require_debug_true': {
-#             '()': 'django.utils.log.RequireDebugTrue'
-#         },
-#     },
-#     'handlers': {
-#         'mylog': {
-#             'filename' : os.path.join(BASE_DIR, 'log/debug.log'),
-#             'maxBytes' : 1024*5,
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'formatter': 'verbose',
-#             'encoding' : 'utf8'
-#         },
-#     },
-#     'loggers': {
-#         'log': {
-#             'handlers': ['mylog']
-#         }
-#     }
-# }
+import os
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False if DEBUG else True,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {lineno} {message}',
+            'style': '{',
+        }, 
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        },
+    },
+    'handlers': {
+        'mylog': {
+            'filename' : os.path.join(BASE_DIR, 'log/debug.log'),
+            'maxBytes' : 1024*5,
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'encoding' : 'utf8'
+        },
+    },
+    'loggers': {
+        'log': {
+            'handlers': ['mylog']
+        }
+    }
+}

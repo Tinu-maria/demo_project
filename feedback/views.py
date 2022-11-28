@@ -4,9 +4,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from feedback.forms import FeedbackForm, RegistrationForm, LoginForm
 from django.contrib.auth.models import User
-# import os
-# import logging
-
+import os
+import logging
+from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
+from django.utils.decorators import method_decorator
+from feedback.decorators import signin_required
 
 class RegisterView(View):
     def get(self,request,*args,**kwargs):
@@ -17,7 +20,7 @@ class RegisterView(View):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             User.objects.create_user(**form.cleaned_data)
-            return render(request,"feedback/index.html")
+            return redirect("signin")
         
 class LoginView(View):
     def get(self,request,*args,**kwargs):
@@ -27,8 +30,22 @@ class LoginView(View):
     def post(self,request,*args,**kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
-            return render(request,"feedback/index.html")
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user=authenticate(request, username=username, password=password)
+            if user:
+                login(request,user)
+                return redirect('feedback')
+            else:
+                messages.error(request, "Invalid credentials")
+                return redirect('signin')
 
+class LogoutView(View):
+    def get(self,request,*args,**kwargs):
+        logout(request)
+        return redirect("signin")    
+
+@method_decorator(signin_required, name="dispatch")
 class FeedbackFormView(FormView):
     template_name = "feedback/feedback.html"
     form_class = FeedbackForm
@@ -38,15 +55,14 @@ class FeedbackFormView(FormView):
         form.send_email()
         return super().form_valid(form)
 
-
 class SuccessView(TemplateView):
     template_name = "feedback/success.html"
     
+log = logging.getLogger('log')
 
-# log = logging.getLogger('log')
 def index(request):
-    # log.info("Message for information")
-    # log.warning("Message for warning")
-    # log.error("Message for error")
-    # log.critical("Message for critical error")
+    log.info("Message for information")
+    log.warning("Message for warning")
+    log.error("Message for error")
+    log.critical("Message for critical error")
     return render(request, 'feedback/index.html')

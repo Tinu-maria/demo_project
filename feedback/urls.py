@@ -1,8 +1,6 @@
 from django.urls import path
 
-from feedback.views import FeedbackFormView, SuccessView, index, RegisterView, LoginView
-
-app_name = "feedback"
+from feedback.views import FeedbackFormView,SuccessView,index,RegisterView,LoginView,LogoutView
 
 urlpatterns = [
     path("feedback/", FeedbackFormView.as_view(), name="feedback"),
@@ -10,4 +8,5 @@ urlpatterns = [
     path("index/", index, name="index"), 
     path("register", RegisterView.as_view(), name="register"),
     path("login", LoginView.as_view(), name="signin"), 
+    path("logout", LogoutView.as_view(), name="signout"), 
 ]
