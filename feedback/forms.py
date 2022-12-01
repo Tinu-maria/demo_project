@@ -29,8 +29,13 @@ class FeedbackForm(forms.Form):
         label="Message", widget=forms.Textarea(attrs={"class":"form-control","rows": 5})
         )
     def send_email(self):
-        send_feedback_email_task.delay(
+        send_feedback_email_task(
             self.cleaned_data["email"],self.cleaned_data["message"]
         ) 
+
+        # send_feedback_email_task.delay(
+        #     self.cleaned_data["email"],self.cleaned_data["message"]
+        # ) 
+        
         # Using .delay() we can send a task message quickly to Celery
 
