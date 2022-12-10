@@ -28,8 +28,6 @@ urlpatterns = [
     path("", include("feedback.urls")),
     path('api/token',TokenObtainPairView.as_view()),
     path('api/token/refresh',TokenRefreshView.as_view()),
-    path('api/register',views.RegisterView.as_view()),
-    path('api/logout',views.LogoutView.as_view()),
     path('api/student',views.StudentView.as_view()),
     path('api/student/<int:id>/',views.StudentDetailView.as_view())
 ]+router.urls

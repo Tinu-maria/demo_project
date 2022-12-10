@@ -6,7 +6,7 @@
         {%csrf_token%}
         {{form.as_p}}
         <div>
-            <button type="submit" class="btn btn-info mb-3">Login</button>
+            <button id="submit" type="submit" class="btn btn-info mb-3">Login</button>
             <p>If you are a new user, you can <a href="{% url 'register' %}">register</a> your account.</p>
         </div>
     </form>

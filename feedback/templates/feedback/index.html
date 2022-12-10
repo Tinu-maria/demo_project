@@ -2,10 +2,11 @@
 {% load static %}
 
 {% block content %}
+<h2 class="mb-3">Hello User!</h2>
 
-<h2 class="mb-4">Hello User!</h2>
-
-<p>If you want to contact us for any queies, you can <a href="{% url 'feedback' %}">submit the feedback</a> response here.</p>
+<p>If you want to contact us for any queies, you can 
+    <a href="{% url 'feedback' %}">submit the feedback</a> 
+response here.</p>
 <img src="{% static 'feedback.jpg' %}" alt="" class="w-100" height="500">
 
 {% endblock content %}

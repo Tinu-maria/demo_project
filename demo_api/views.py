@@ -7,9 +7,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile, Student
 from rest_framework import permissions
 from rest_framework import status
-from rest_framework import generics
-# from django.utils.decorators import method_decorator
-# from demo_api.decorators import signin_required
+from django.db.models import F, Q, Avg
 
 # Model view set view
 class UserRegistrationView(ModelViewSet):
@@ -30,20 +28,21 @@ class UserProfileView(ModelViewSet):
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # API view
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = UserSerializer
-
-class LogoutView(APIView):
-    def get(self, request, format=None):
-        request.user.delete()
-        return Response(status=status.HTTP_200_OK)
-
 class StudentView(APIView):
     def get(self,request,*args,**kwargs):
         queryset = Student.objects.all()
         serializer = StudentSerializer(queryset, many=True)
+
+        age1 = Student.objects.annotate(new_age = F('age')+1)
+        for age in age1:
+            print(age.new_age)
+        age2 = Student.objects.aggregate(new_age = Avg(F('age')))
+        print(age2['new_age'])
+        data1 = Student.objects.filter(Q(id=27))
+        print(data1)
+        # data2 = Student.objects.raw("SELECT * from Student")
+        # print(data2)
+
         return Response(data=serializer.data)
 
     def post(self,request,*args,**kwargs):
