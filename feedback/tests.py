@@ -76,5 +76,4 @@ class RegisterTestCase(LiveServerTestCase):
         username = selenium.find_element(By.ID,'id_username')
 
         username.send_keys('testing')
-        username.send_keys(Keys.ENTER)
-     
+        username.send_keys(Keys.ENTER)   

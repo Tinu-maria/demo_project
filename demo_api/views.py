@@ -75,4 +75,3 @@ class StudentDetailView(APIView):
         queryset = Student.objects.get(id=id)
         queryset.delete()
         return Response({"msg":"deleted"})  
-

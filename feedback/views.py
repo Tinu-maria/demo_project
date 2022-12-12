@@ -73,6 +73,7 @@ def index(request):
     log.warning("Message for warning")
     log.error("Message for error")
     log.critical("Message for critical error")
+    
     return render(request, 'feedback/index.html')
 
 def pagination(request):
