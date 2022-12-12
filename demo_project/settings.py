@@ -148,7 +148,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'tinumaria.sayone@gmail.com'
-EMAIL_HOST_PASSWORD = 'jzuhoofjaswuhqbt'
+EMAIL_HOST_PASSWORD = ''
 
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
