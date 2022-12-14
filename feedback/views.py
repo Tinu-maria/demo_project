@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import View, ListView, DetailView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from feedback.forms import FeedbackForm, RegistrationForm, LoginForm
+from feedback.models import Profile
+from feedback.forms import FeedbackForm, RegistrationForm, LoginForm, ProfileForm
 from django.contrib.auth.models import User
 import logging
 from django.contrib.auth import authenticate,login,logout
@@ -73,7 +74,7 @@ def index(request):
     log.warning("Message for warning")
     log.error("Message for error")
     log.critical("Message for critical error")
-    
+
     return render(request, 'feedback/index.html')
 
 def pagination(request):
@@ -86,3 +87,51 @@ def pagination(request):
 
     context = {'user' : page}
     return render(request, 'feedback/page.html', context)
+
+@method_decorator(signin_required, name="dispatch")
+class UserProfileAdd(TemplateView):
+    template_name = "feedback/adduserprofile.html"
+
+    def get(self, request, *args, **kwargs):
+        form = ProfileForm()
+        return render(request, 'feedback/adduserprofile.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("viewprofile")
+
+class UserProfileView(ListView):
+    model = Profile
+    template_name = 'feedback/viewuserprofile.html'
+    context_object_name = 'profiles'
+
+@method_decorator(signin_required, name="dispatch")
+def upload(request, *args, **kwargs):
+    if request.method == "POST":
+        files = request.FILES.getlist('files')
+        for file in files:
+            new_file = Profile(image=file)
+            new_file.save()
+        return render(request, 'feedback/viewuserprofile.html', {'files': new_file})
+    else:
+        return render(request, 'feedback/multipleupload.html')
+
+
+
+# def upload_multiple_files(request):
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST, request.FILES)
+#         files = request.FILES.getlist('files')
+#         if form.is_valid():
+#             for f in files:
+#                 Profile.objects.create(files=f)
+#             form.save()
+#             context = {'msg' : '<span style="color: green;">File successfully uploaded</span>'}
+#             return render(request, "feedback/multipleupload.html", context)
+#     else:
+#         form = ProfileForm()
+#     return render(request, 'feedback/multipleupload.html', {'form': form})
+
+

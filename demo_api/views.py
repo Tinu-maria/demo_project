@@ -8,6 +8,7 @@ from .models import UserProfile, Student
 from rest_framework import permissions
 from rest_framework import status
 from django.db.models import F, Q, Avg
+from rest_framework.generics import RetrieveDestroyAPIView, ListCreateAPIView
 
 # Model view set view
 class UserRegistrationView(ModelViewSet):

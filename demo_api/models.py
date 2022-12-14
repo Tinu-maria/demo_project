@@ -22,3 +22,34 @@ class Student(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+    # @property
+    # def email(self):  
+    #     return '{}.{}@gmail.com'.format(self.first_name,self.last_name)
+
+    @property
+    def full_name(self):  
+        return '{} {}'.format(self.first_name,self.last_name)
+
+    @full_name.setter
+    def full_name(self, name):  
+        newfirst_name, newlast_name = name.split(' ')
+        self.first_name = newfirst_name
+        self.last_name = newlast_name
+
+    @full_name.deleter
+    def full_name(self):  
+        print('deleted name')
+        self.first_name = None
+        self.last_name = None
+
+obj = Student('','tinu','maria')
+obj.full_name = 'maria davis'
+
+print("First Name is:", obj.first_name)  
+print("Last Name is:", obj.last_name)
+print("Full Name is:", obj.full_name) 
+# print("Full Name is:", obj.full_name())  
+
+del obj.full_name
+

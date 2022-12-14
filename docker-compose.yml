@@ -4,8 +4,8 @@ services:
   web:
     build: .
     command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver"
-    container_name: myapp
+    container_name: app
     volumes:
-      - .:/myapp
+      - .:/app
     ports:
       - "8000:8000"

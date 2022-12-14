@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,7 @@ SECRET_KEY = 'django-insecure-g#btzdut2148&hl3m8t&gogvxa&gej9205rh4n2&*#2dquy&(6
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['0.0.0.0']
 # ALLOWED_HOSTS = ['tinumaria.pythonanywhere.com']
 
 # Application definition
@@ -137,6 +139,13 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = 'static/'
 
+# STATICFILES_DIRS = [
+#     '/home/sayone/Desktop/Study/DemoFinal/demo_project/feedback/static',
+# ]
+
+MEDIA_URL = "/profile/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "profile")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -153,6 +162,8 @@ EMAIL_HOST_PASSWORD = 'jzuhoofjaswuhqbt'
 # Celery settings
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
 
 # Loggers settings
 import os
@@ -187,5 +198,14 @@ LOGGING = {
         'log': {
             'handlers': ['mylog']
         }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
     }
 }
