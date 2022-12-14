@@ -7,7 +7,7 @@
     <form method="POST" enctype="multipart/form-data"> 
       <!-- <label for="">Name</label> 
       <input type="text" class="form-control"> -->
-      <label for="">Image</label> 
+      <label class="mb-2" for="">Browse one or more files</label> 
       <input type="file" name="files" multiple class="form-control">
           {% csrf_token %}  
       <button type="submit" class="btn btn-info mt-3">Upload</button>  

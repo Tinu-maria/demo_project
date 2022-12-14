@@ -107,9 +107,9 @@ class UserProfileView(ListView):
     template_name = 'feedback/viewuserprofile.html'
     context_object_name = 'profiles'
 
-@method_decorator(signin_required, name="dispatch")
+
 def upload(request, *args, **kwargs):
-    if request.method == "POST":
+    if (request.method == "POST"):
         files = request.FILES.getlist('files')
         for file in files:
             new_file = Profile(image=file)
