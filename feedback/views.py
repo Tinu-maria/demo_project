@@ -37,6 +37,7 @@ class LoginView(View):
             password = form.cleaned_data.get("password")
             user=authenticate(request, username=username, password=password)
             if user:
+                # request.session['username'] = username
                 login(request,user)
                 return redirect('feedback')
             else:
@@ -45,6 +46,8 @@ class LoginView(View):
 
 class LogoutView(View):
     def get(self,request,*args,**kwargs):
+        # if 'username' in request.session:
+        #     request.session.flush()
         logout(request)
         return redirect("signin")    
 
@@ -78,8 +81,8 @@ def index(request):
     return render(request, 'feedback/index.html')
 
 def pagination(request):
+    # if 'username' in request.session:
     user = User.objects.all()
-
     p = Paginator(user,1)
     # p = Paginator(list_of_objects, no_of_objects_per_page)
     page_num = request.GET.get('page', 1)
@@ -87,6 +90,7 @@ def pagination(request):
 
     context = {'user' : page}
     return render(request, 'feedback/page.html', context)
+    # return redirect("signin")  
 
 @method_decorator(signin_required, name="dispatch")
 class UserProfileAdd(TemplateView):
@@ -99,14 +103,20 @@ class UserProfileAdd(TemplateView):
     def post(self, request, *args, **kwargs):
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect("viewprofile")
+            #for multiple fiile upload
+            files = request.FILES.getlist('files')
+            for file in files:
+                new_file = Profile.objects.create(image=file)
+                # new_file = Profile(image=file)
+                new_file.save() 
+                #for multiple fiile upload
+            # form.save()
+            return redirect('success')
 
 class UserProfileView(ListView):
     model = Profile
     template_name = 'feedback/viewuserprofile.html'
     context_object_name = 'profiles'
-
 
 def upload(request, *args, **kwargs):
     if (request.method == "POST"):
@@ -120,18 +130,5 @@ def upload(request, *args, **kwargs):
 
 
 
-# def upload_multiple_files(request):
-#     if request.method == 'POST':
-#         form = ProfileForm(request.POST, request.FILES)
-#         files = request.FILES.getlist('files')
-#         if form.is_valid():
-#             for f in files:
-#                 Profile.objects.create(files=f)
-#             form.save()
-#             context = {'msg' : '<span style="color: green;">File successfully uploaded</span>'}
-#             return render(request, "feedback/multipleupload.html", context)
-#     else:
-#         form = ProfileForm()
-#     return render(request, 'feedback/multipleupload.html', {'form': form})
 
 

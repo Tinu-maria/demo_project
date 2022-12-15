@@ -2,10 +2,7 @@
 
 {% block content %}
 <div class="login-box">
-<h2>Thank You!</h2>
-
-<p>Your image is uploaded</p>
-<p>You can upload another profile <a href="{% url 'feedback' %}">image</a></p>
+<h2>YOUR PROFILE</h2>
 
     {%for profile in profiles%}
       <img src={{profile.image}} width="160" height="160"  alt="...">
