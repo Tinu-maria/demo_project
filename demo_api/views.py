@@ -8,27 +8,10 @@ from .models import UserProfile, Student
 from rest_framework import permissions
 from rest_framework import status
 from django.db.models import F, Q, Avg
-from rest_framework.generics import RetrieveDestroyAPIView, ListCreateAPIView
-
-# Model view set view
-class UserRegistrationView(ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-   
-class UserProfileView(ModelViewSet):
-    serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
-
-    def create(self, request, *args, **kwargs):
-        serializer = UserProfileSerializer(data=request.data, context={"user":request.user})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 # API view
+
 class StudentView(APIView):
     def get(self,request,*args,**kwargs):
         queryset = Student.objects.all()
@@ -76,3 +59,59 @@ class StudentDetailView(APIView):
         queryset = Student.objects.get(id=id)
         queryset.delete()
         return Response({"msg":"deleted"})  
+
+
+# Model view set view
+
+class UserRegistrationView(ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+   
+class UserProfileView(ModelViewSet):
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = UserProfileSerializer(data=request.data, context={"user":request.user})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+
+# Generic view
+
+class GenericProfileView(ListCreateAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return UserProfile.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = UserProfileSerializer(data=request.data, context={"user":request.user})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data)
+        else:
+            return Response(data=serializer.errors)
+
+class GenericView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+    lookup_url_kwarg = 'id'
+
+
+class ProfileListView(APIView):
+    def get(self,request,*args,**kwargs):
+        profile = UserProfile.objects.all()
+        serializer = UserProfileSerializer(profile, many=True)
+        return Response(data=serializer.data)
+
+class StudentListView(APIView):
+    def get(self,request,*args,**kwargs):
+        student = Student.objects.all()
+        serializer = StudentSerializer(student, many=True)
+        return Response(data=serializer.data)

@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 from django.db.models import F, Value, CharField, Sum
 from django.db.models.functions import Concat
 
+
 class RegisterView(View):
     def get(self,request,*args,**kwargs):
         form = RegistrationForm()
@@ -70,8 +71,8 @@ def index(request):
     name1 = User.objects.annotate(full_name = Concat(F('first_name'), Value(' '), F('last_name'), output_field=CharField()))
     for name in name1:
         print(name.full_name)
-    name1 = User.objects.aggregate(full_name = Sum(F('first_name')+F('last_name'), output_field=CharField()))
-    print(name1['full_name'])
+    # name1 = User.objects.aggregate(full_name = Sum(F('first_name') + F('last_name'), output_field=CharField()))
+    # print(name1['full_name'])
 
     log.info("Message for information")
     log.warning("Message for warning")
@@ -87,7 +88,7 @@ def pagination(request):
     # p = Paginator(list_of_objects, no_of_objects_per_page)
     page_num = request.GET.get('page', 1)
     page = p.page(page_num)
-
+    print(page_num)
     context = {'user' : page}
     return render(request, 'feedback/page.html', context)
     # return redirect("signin")  
@@ -118,6 +119,7 @@ class UserProfileView(ListView):
     template_name = 'feedback/viewuserprofile.html'
     context_object_name = 'profiles'
 
+
 def upload(request, *args, **kwargs):
     if (request.method == "POST"):
         files = request.FILES.getlist('files')
@@ -127,8 +129,3 @@ def upload(request, *args, **kwargs):
         return render(request, 'feedback/viewuserprofile.html', {'files': new_file})
     else:
         return render(request, 'feedback/multipleupload.html')
-
-
-
-
-

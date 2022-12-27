@@ -13,8 +13,6 @@ urlpatterns = [
     path("page/", pagination, name="page"), 
     path("profile/add", UserProfileAdd.as_view(), name="addprofile"), 
     path("profile/view", UserProfileView.as_view(), name="viewprofile"), 
-
-    path("profile/multiple", upload, name="multipleprofile"), 
-    # path("profile/multipleupload", upload_multiple_files, name="multipleupload"), 
     
+    path("profile/multiple", upload, name="multipleprofile"),     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
