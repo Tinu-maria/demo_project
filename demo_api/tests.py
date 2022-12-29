@@ -1,5 +1,5 @@
 from django.test import TestCase
-from demo_api.models import Student, UserProfile
+from demo_api.models import Student
 from unittest import mock
 from demo_api.functions import mock_student
 from django.urls import reverse
@@ -35,6 +35,7 @@ class StudentlistTest(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertContains(response, student1.first_name)
         self.assertContains(response, student2.first_name)
+        print('Name is', student2.first_name)
 
 # Mock test
 

@@ -9,6 +9,7 @@ from rest_framework import permissions
 from rest_framework import status
 from django.db.models import F, Q, Avg
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+import asyncio
 
 # API view
 
@@ -115,3 +116,20 @@ class StudentListView(APIView):
         student = Student.objects.all()
         serializer = StudentSerializer(student, many=True)
         return Response(data=serializer.data)
+
+async def student(i):
+    print(f"student {i} entered")
+    await asyncio.sleep(4)
+    print(f"student {i} completed")
+
+async def main():
+    student1 = asyncio.create_task(student(1))
+    await asyncio.sleep(1)
+    student2 = asyncio.create_task(student(2))
+    await asyncio.sleep(1)
+    student3 = asyncio.create_task(student(3))
+    await student1
+    await student2
+    await student3
+
+# asyncio.run(main())

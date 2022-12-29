@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import View, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from feedback.models import Profile
@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from feedback.decorators import signin_required
 from django.core.paginator import Paginator
-from django.db.models import F, Value, CharField, Sum
+from django.db.models import F, Value, CharField
 from django.db.models.functions import Concat
 
 
@@ -40,7 +40,12 @@ class LoginView(View):
             if user:
                 # request.session['username'] = username
                 login(request,user)
-                return redirect('feedback')
+                context={
+                    'username':username
+                }
+                response = render(request,"feedback/index.html",context)
+                response.set_cookie('username', username)
+                return response
             else:
                 messages.error(request, "Invalid credentials")
                 return redirect('signin')
@@ -50,7 +55,9 @@ class LogoutView(View):
         # if 'username' in request.session:
         #     request.session.flush()
         logout(request)
-        return redirect("signin")    
+        response = redirect("signin")
+        response.delete_cookie('username') 
+        return response   
 
 @method_decorator(signin_required, name="dispatch")
 class FeedbackFormView(FormView):
@@ -68,18 +75,24 @@ class SuccessView(TemplateView):
 log = logging.getLogger('log')
 
 def index(request):
+    log.info("Message for information")
+    log.warning("Message for warning")
+    log.error("Message for error")
+    log.critical("Message for critical error")
+
     name1 = User.objects.annotate(full_name = Concat(F('first_name'), Value(' '), F('last_name'), output_field=CharField()))
     for name in name1:
         print(name.full_name)
     # name1 = User.objects.aggregate(full_name = Sum(F('first_name') + F('last_name'), output_field=CharField()))
     # print(name1['full_name'])
 
-    log.info("Message for information")
-    log.warning("Message for warning")
-    log.error("Message for error")
-    log.critical("Message for critical error")
-
-    return render(request, 'feedback/index.html')
+    if 'username' in request.COOKIES:
+        context={
+            'username':request.COOKIES['username']
+        }
+        return render(request, 'feedback/index.html', context)
+    else:
+        return render(request, 'feedback/index.html')
 
 def pagination(request):
     # if 'username' in request.session:
@@ -118,7 +131,6 @@ class UserProfileView(ListView):
     model = Profile
     template_name = 'feedback/viewuserprofile.html'
     context_object_name = 'profiles'
-
 
 def upload(request, *args, **kwargs):
     if (request.method == "POST"):

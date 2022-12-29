@@ -27,7 +27,6 @@ SECRET_KEY = 'django-insecure-g#btzdut2148&hl3m8t&gogvxa&gej9205rh4n2&*#2dquy&(6
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['0.0.0.0']
 # ALLOWED_HOSTS = ['tinumaria.pythonanywhere.com']
 
 # Application definition
@@ -47,7 +46,6 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )

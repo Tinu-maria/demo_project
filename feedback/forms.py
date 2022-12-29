@@ -33,15 +33,13 @@ class FeedbackForm(forms.Form):
         )
 
     def send_email(self):
+        send_feedback_email_task.delay(
+            self.cleaned_data["email"],self.cleaned_data["message"]
+        ) # Using .delay() we can send a task message quickly to Celery
+
         # send_feedback_email_task(
         #     self.cleaned_data["email"],self.cleaned_data["message"]
         # ) 
-
-        send_feedback_email_task.delay(
-            self.cleaned_data["email"],self.cleaned_data["message"]
-        ) 
-        
-        # Using .delay() we can send a task message quickly to Celery
 
 
 class ProfileForm(forms.ModelForm):
