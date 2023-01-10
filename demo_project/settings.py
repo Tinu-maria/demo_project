@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -39,11 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "feedback.apps.FeedbackConfig",
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'rest_framework',
     'rest_framework_simplejwt',
     'demo_api',
     'corsheaders'
 ]
+
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -66,7 +70,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-
 ROOT_URLCONF = 'demo_project.urls'
 
 TEMPLATES = [
@@ -87,7 +90,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'demo_project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -98,15 +100,15 @@ WSGI_APPLICATION = 'demo_project.wsgi.application'
 #     }
 # }
 
-DATABASES={
-   'default':{
-      'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'sayone',
-      'USER':'sayone',
-      'PASSWORD':'sayone',
-      'HOST':'localhost',
-      'PORT':'5432',
-   }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'sayone',
+        'USER': 'sayone',
+        'PASSWORD': 'sayone',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # Password validation
@@ -127,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -138,7 +139,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -172,7 +172,7 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 # Loggers settings
-import os
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False if DEBUG else True,
@@ -180,7 +180,7 @@ LOGGING = {
         'verbose': {
             'format': '{levelname} {asctime} {module} {lineno} {message}',
             'style': '{',
-        }, 
+        },
         'simple': {
             'format': '{levelname} {message}',
             'style': '{',
@@ -193,11 +193,11 @@ LOGGING = {
     },
     'handlers': {
         'mylog': {
-            'filename' : os.path.join(BASE_DIR, 'log/debug.log'),
-            'maxBytes' : 1024*5,
+            'filename': os.path.join(BASE_DIR, 'log/debug.log'),
+            'maxBytes': 1024 * 5,
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'verbose',
-            'encoding' : 'utf8'
+            'encoding': 'utf8'
         },
     },
     'loggers': {
@@ -215,4 +215,3 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211',
     }
 }
-

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -12,8 +13,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.name
-    
-    
+
+
 class Student(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, null=True)
@@ -23,28 +24,29 @@ class Student(models.Model):
 
     def __str__(self):
         return self.first_name
-    
+
     @property
-    def full_name(self):  
-        return '{} {}'.format(self.first_name,self.last_name)
+    def full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)
 
     # @property
     # def email(self):  
     #     return '{}.{}@gmail.com'.format(self.first_name,self.last_name)
 
     @full_name.setter
-    def full_name(self, name):  
+    def full_name(self, name):
         newfirst_name, newlast_name = name.split(' ')
         self.first_name = newfirst_name
         self.last_name = newlast_name
 
     @full_name.deleter
-    def full_name(self):  
+    def full_name(self):
         # print('deleted name')
         self.first_name = None
         self.last_name = None
 
-obj = Student('','tinu','maria')
+
+obj = Student('', 'tinu', 'maria')
 obj.full_name = 'maria tinu'
 
 # print("First Name is:", obj.first_name)  
@@ -53,4 +55,3 @@ obj.full_name = 'maria tinu'
 # print("Full Name is:", obj.full_name())  
 
 del obj.full_name
-

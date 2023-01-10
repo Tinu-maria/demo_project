@@ -5,7 +5,7 @@
 <h2>YOUR PROFILE</h2>
 
     {%for profile in profiles%}
-      <img src={{profile.image}} width="160" height="160"  alt="...">
+        <img src={{profile.image}} width="150" height="150"  alt="...">
     {% endfor %}
 </div>
 
@@ -29,7 +29,10 @@
     }
     
     .login-box h2 {
-      margin-bottom: 30px;
+      text-align: center;
+    }
+    .login-box p {
+      padding-top: 20px;
       text-align: center;
     }
     

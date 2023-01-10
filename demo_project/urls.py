@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from feedback.sitemap import SitemapView
+from django.contrib.sitemaps.views import sitemap
+
+sitemaps = {
+    'static': SitemapView
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("feedback.urls")),
-    path("api/",include("demo_api.urls")),   
+    path("api/", include("demo_api.urls")),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
+    path('flatpages/', include('django.contrib.flatpages.urls')),
 ]
-
-

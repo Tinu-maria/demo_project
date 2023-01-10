@@ -4,11 +4,13 @@
 {% block content %} 
 <div class="login-box">
 <h2>ADD PROFILE</h2>
-    <form method="POST" enctype="multipart/form-data"> 
-      <label class="mb-2" for="">Browse one or more files</label> 
-      <input type="file" name="files" multiple class="form-control">
+    <form method="POST" enctype="multipart/form-data">
+        <label class="mb-2" for="">Title:</label>
+        {{ form.title }}
+        <label class="mb-2" for="">Browse one or more files:</label>
+        <input type="file" name="files" multiple class="form-control">
           {% csrf_token %}  
-      <button type="submit" class="btn btn-info mt-3">Upload</button> 
+        <button type="submit" class="btn btn-info mt-3">Upload</button>
     </form>  
 </div>
 
