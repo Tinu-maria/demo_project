@@ -1,11 +1,5 @@
 from django.shortcuts import redirect
 from django.contrib import messages
-from feedback.functions import send_email
-from django.contrib.auth import authenticate
-from feedback.forms import LoginForm
-from django.core.mail import send_mail
-from django.conf import settings
-from django.contrib.auth.models import User
 
 
 def signin_required(function):
@@ -18,6 +12,13 @@ def signin_required(function):
 
     return wrapper
 
+
+# from feedback.functions import send_email
+# from django.contrib.auth import authenticate
+# from feedback.forms import LoginForm
+# from django.core.mail import send_mail
+# from django.conf import settings
+# from django.contrib.auth.models import User
 
 # def authentication_error(function):
 #     def wrapper(request, *args, **kwargs):

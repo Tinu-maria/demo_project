@@ -2,8 +2,8 @@ import os
 from celery import Celery
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "demo_project.settings")
-# we use .setdefault() of os.environ to assure that your Django project’s settings.py module is accessible through
-# the "DJANGO_SETTINGS_MODULE" key
+# we use .setdefault() of os.environ to assure that Django project’s settings.py module is accessible through
+# "DJANGO_SETTINGS_MODULE" key
 
 app = Celery("demo_project")
 # we create the Celery application instance and provide the name of the main module as an argument

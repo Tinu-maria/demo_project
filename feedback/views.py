@@ -104,6 +104,9 @@ class FeedbackFormView(FormView):
 
 
 class SuccessView(TemplateView):
+    """
+    Success View returns a thankyou message after feedback sending
+    """
     template_name = "feedback/success.html"
 
 
@@ -138,22 +141,6 @@ def index(request):
         return render(request, 'feedback/index.html')
 
 
-def pagination(request):
-    """
-    Pagination view
-    User details are separated to different pages
-    to display one page of results at a time.
-    """
-    # if 'username' in request.session:
-    user = User.objects.get_queryset().order_by('id')
-    p = Paginator(user, 1)  # p = Paginator(list_of_objects, no_of_objects_per_page)
-    page_num = request.GET.get('page', 1)
-    page = p.page(page_num)
-    context = {'user': page}
-    return render(request, 'feedback/page.html', context)
-    # return redirect("signin")  
-
-
 @method_decorator(signin_required, name="dispatch")
 class UserProfileAdd(View):
     """
@@ -185,6 +172,22 @@ class UserProfileView(ListView):
     model = Profile
     template_name = 'feedback/viewuserprofile.html'
     context_object_name = 'profiles'
+
+
+def pagination(request):
+    """
+    Pagination view
+    User details are separated to different pages
+    to display one page of results at a time.
+    """
+    # if 'username' in request.session:
+    user = User.objects.get_queryset().order_by('id')
+    p = Paginator(user, 1)  # p = Paginator(list_of_objects, no_of_objects_per_page)
+    page_num = request.GET.get('page', 1)
+    page = p.page(page_num)
+    context = {'user': page}
+    return render(request, 'feedback/page.html', context)
+    # return redirect("signin")
 
 
 @cache_page(60 * 10)

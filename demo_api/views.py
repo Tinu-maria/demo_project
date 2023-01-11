@@ -14,6 +14,11 @@ import asyncio
 # API view
 
 class StudentView(APIView):
+    """
+    Student view
+    In GET: Obtain list of all students profile
+    In POST: Creates a new student profile
+    """
     def get(self, request, *args, **kwargs):
         queryset = Student.objects.all()
         serializer = StudentSerializer(queryset, many=True)
@@ -40,6 +45,12 @@ class StudentView(APIView):
 
 
 class StudentDetailView(APIView):
+    """
+    Student detail view
+    In GET: Obtains a student profile with corresponding id
+    In PUT: Updates a student profile with corresponding id
+    In DELETE: Deletes a student profile with corresponding id
+    """
     def get(self, request, *args, **kwargs):
         id = kwargs.get("id")
         queryset = Student.objects.get(id=id)
@@ -66,11 +77,19 @@ class StudentDetailView(APIView):
 # Model view set view
 
 class UserRegistrationView(ModelViewSet):
+    """
+    User registration view
+    Can Create & List a user profile
+    """
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
 
 class UserProfileView(ModelViewSet):
+    """
+    User profile view
+    Can Create, List, Get, Update & Delete a user profile
+    """
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
     permission_classes = [permissions.IsAuthenticated]
@@ -87,6 +106,10 @@ class UserProfileView(ModelViewSet):
 # Generic view
 
 class GenericProfileView(ListCreateAPIView):
+    """
+    Generic profile view
+    Can Create & List a user profile
+    """
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -103,20 +126,23 @@ class GenericProfileView(ListCreateAPIView):
 
 
 class GenericView(RetrieveUpdateDestroyAPIView):
+    """
+    Generic view
+    Can Get, Update & Delete a user profile
+    """
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
     lookup_url_kwarg = 'id'
 
 
-
-class ProfileListView(APIView):
+class ProfileListView(APIView):  # created to do faker factories
     def get(self, request, *args, **kwargs):
         profile = UserProfile.objects.all()
         serializer = UserProfileSerializer(profile, many=True)
         return Response(data=serializer.data)
 
 
-class StudentListView(APIView):
+class StudentListView(APIView):  # created to do faker factories
     def get(self, request, *args, **kwargs):
         student = Student.objects.all()
         serializer = StudentSerializer(student, many=True)
